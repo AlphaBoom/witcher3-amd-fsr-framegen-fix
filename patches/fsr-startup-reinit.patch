@@ -1,0 +1,48 @@
+--- a/content/content0/scripts/game/r4game.ws
++++ b/mods/modFSRStartupReinit/content/scripts/game/r4game.ws
+@@ -842,6 +842,14 @@
+ 		
+ 		
+ 		theSound.SoundEvent("system_resume");
++
++		// FSR FG's persisted On value can fail to initialize the presentation path.
++		// Reinitialize only when the user already selected FSR FG, after load.
++		if ( thePlayer )
++		{
++			thePlayer.AddTimer( 'FSRStartupReinitialize', 2.0f, false );
++		}
++
+ 
+ 		
+ 		if(ShouldProcessTutorial('TutorialStash') && FactsQuerySum("tut_stash_fresh_playthrough") <= 0)
+--- a/content/content0/scripts/game/player/player.ws
++++ b/mods/modFSRStartupReinit/content/scripts/game/player/player.ws
+@@ -534,6 +534,28 @@
+ 	{	
+ 	}
+ 	
++
++	// Reapply the existing user-selected FSR FG mode after loading has finished.
++	// The two setting changes must occur in separate rendered frames.
++	timer function FSRStartupReinitialize( dt : float, id : int )
++	{
++		var config : CInGameConfigWrapper;
++		if ( this != thePlayer || !theGame.GetFSRFramegenSupported() || !theGame.GetFSRFramegenEnabled() )
++		{
++			return;
++		}
++		config = (CInGameConfigWrapper)theGame.GetInGameConfigWrapper();
++		config.SetVarValue( 'Graphics', 'Virtual_FSRFramegen', "0" );
++		AddTimer( 'FSRStartupRestoreEnabled', 0.5f, false );
++	}
++
++	timer function FSRStartupRestoreEnabled( dt : float, id : int )
++	{
++		var config : CInGameConfigWrapper;
++		config = (CInGameConfigWrapper)theGame.GetInGameConfigWrapper();
++		config.SetVarValue( 'Graphics', 'Virtual_FSRFramegen', "1" );
++	}
++
+ 	timer function PlayerTick( deltaTime : float , id : int)
+ 	{	
+ 		deltaTime = theTimer.timeDeltaUnscaled;

@@ -1,0 +1,24 @@
+{
+  "version": "1.0.0",
+  "game_version": "5.01c",
+  "executable_version": "5.0.0.1090142",
+  "tested_gpu": "AMD Radeon RX 9060 XT",
+  "renderer": "DX12",
+  "base_script_sha256": {
+    "content/content0/scripts/game/player/player.ws": "eb5b88edea7edd5c90aef2dc75b7b4123df46126a82f65f386f6e924eddfca36",
+    "content/content0/scripts/game/r4game.ws": "045cdddff8fff73a68b2c3ea37e8bf6bf2da47c40b2a09dfe82d4fa97548ec9b"
+  },
+  "mod_script_sha256": {
+    "mods/modFSRStartupReinit/content/scripts/game/r4game.ws": "350b88d57ecc1e9d0f4a37308bade80467a044e9f9cd6b42c2f21e6ab709f863",
+    "mods/modFSRStartupReinit/content/scripts/game/player/player.ws": "549303300bf9126556380e5201693507680b72077b8fb7e1efaea3d860ebd9dc"
+  },
+  "verification": {
+    "baseline_fps": "118-119",
+    "manual_reinitialization_fps": 218,
+    "cold_start_fps": [
+      223,
+      222
+    ],
+    "manual_toggle_during_mod_tests": false
+  }
+}
